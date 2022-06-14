@@ -1,0 +1,28 @@
+@import "src/assets/styles/scss/variables.scss";
+@import "src/assets/styles/scss/mixins.scss";
+.sidebar-header {
+    height: 56px;
+    line-height: 56px;
+    background-color: var(--color4);
+    a {
+        line-height: inherit;
+        text-decoration: none;
+    }
+}
+
+.sidebar-list {
+    .list-item {
+        padding: 10px 15px;
+        &:not(:last-child) {
+            border-bottom: 1px solid rgba($theme-color-1, .4);
+        }
+        &:hover {
+            background-color: rgba($theme-color-1, .5);
+        }
+        a {
+            text-decoration: none;
+            color: var(--theme-color-3);
+            cursor: pointer;
+        }
+    }
+}

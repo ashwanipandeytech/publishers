@@ -1,0 +1,18 @@
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <app-sidebar *ngIf="allowaccess" class="sidebar-wrapper">
+    </app-sidebar>
+    <!-- Page Content  -->
+    <div id="content" class="main-content">
+        <!-- Top Nav bar  -->
+        <div class="top_navbar" *ngIf="allowaccess">
+            <app-navbar>
+            </app-navbar>
+        </div>
+        <div class="route-content" [ngClass]="{'accesnotgranted': !allowaccess }">
+            <router-outlet>
+            </router-outlet>
+        </div>
+        <!-- <app-footer *ngIf="allowaccess"></app-footer> -->
+    </div>
+</div>

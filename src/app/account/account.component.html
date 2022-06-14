@@ -1,0 +1,41 @@
+<div class="container-fluid px-0">
+    <div class="row no-gutters h-100vh">
+        <div class="container">
+
+            <div class="content custom-scroll px-3">
+
+                <div class="mt-3 row mat-elevation-z8 p-3">
+                    <div class="h6 col-md-12"> <b>PROFILE SUMMARY </b>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        FIRST NAME: <b>{{userInfo['firstname']}}</b>
+                    </div>
+                    <div class="col-md-6 mb-2">
+
+                        LAST NAME:<b>{{userInfo['lastname']}}</b>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        EMAIL :<b>{{userInfo['email']}}</b>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        USERNAME:<b>{{userInfo['username']}}</b>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        COUNTRY CODE:<b>{{userInfo['phone'].countryCode}}</b>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        PHONE NO:<b>{{userInfo['phone'].e164Number}}</b>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

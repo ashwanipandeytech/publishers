@@ -1,0 +1,413 @@
+<div class="container-fluid">
+    <!-- <div class="d-flex justify-content-md-center align-items-center vh-100" *ngIf="showloader">
+        <span><img src="../../../assets/images/ajax-loading-gif-3.gif"></span>
+    </div> -->
+
+    <!-- <div class="row no-gutters"> -->
+    <!-- <div [ngClass]="collapseSideBar ? 'col-7 col-sm-9 col-lg-10' : 'col-md-12'"> -->
+
+    <div class="row">
+        <div class="ml-4">
+            <mat-form-field>
+                <mat-label>{{'FILTER BY' }}</mat-label>
+                <mat-select [(ngModel)]="filterBy" name="filterBy" [ngModelOptions]="{standalone: true}" #filterby="ngModel" (selectionChange)="filterData(filterBy)">
+
+                    <mat-option [value]="'today'">{{'TODAY'}}</mat-option>
+                    <mat-option [value]="'lastweek'">{{'LAST WEEK'}}</mat-option>
+                    <!-- <mat-option  [value]="'lastmonth'">{{clients.client}}</mat-option> -->
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+
+        <div class="container py-3">
+
+            <div class="row no-gutter-1 mb-3">
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color1 p-2">
+                        <h5>{{currentBalance}} USD</h5>
+                        <p class="mb-1">Total Amount</p>
+                        <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2" *ngIf="filterBy=='today'">Expanses: {{totalUSDToday}}</span>
+                            <span class="badge badge-pill bg-color2 mr-2" *ngIf="filterBy=='lastweek'">Expanses: {{totalUSDWeek}}</span>
+                            <!-- <span class="badge badge-pill bg-color3">Return: 0</span> -->
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color5 p-2">
+                        <h5 *ngIf="filterBy=='today'">{{totalCallToday}}</h5>
+                        <h5 *ngIf="filterBy=='lastweek'">{{totalCallWeek}}</h5>
+                        <p class="mb-1">Calls</p>
+                        <!-- <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p> -->
+                    </div>
+                </div>
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color4 p-2">
+                        <h4 *ngIf="filterBy=='today'">{{totalleadsToday}}</h4>
+                        <h4 *ngIf="filterBy=='lastweek'">{{totalleadsWeek}}</h4>
+                        <p class="mb-1">Lead</p>
+                        <!-- <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row no-gutter-1 mb-3">
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color1 p-2">
+                        <h5>0 USD</h5>
+                        <p class="mb-1">Total Amount</p>
+                        <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color5 p-2">
+                        <h5>0</h5>
+                        <p class="mb-1">Calls</p>
+                        <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color4 p-2">
+                        <h4>0</h4>
+                        <p class="mb-1">Lead</p>
+                        <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-gutter-1">
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color1 p-2">
+                        <h5>0 USD</h5>
+                        <p class="mb-1">Total Amount</p>
+                        <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color5 p-2">
+                        <h5>0</h5>
+                        <p class="mb-1">Calls</p>
+                        <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2 col-md-4">
+                    <div class="box-item bg-color4 p-2">
+                        <h4>0</h4>
+                        <p class="mb-1">Lead</p>
+                        <p class="mb-0">
+                            <span class="badge badge-pill bg-color2 mr-2">Expanses: 0</span>
+                            <span class="badge badge-pill bg-color3">Return: 0</span>
+                        </p>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="col-12 text-right">
+            <!-- <button class="btn btn-primary br-0"> CREATE A CALL</button> -->
+            <!-- <button (click)="createCall()" class="btn btn-primary br-0"> CREATE A CALL</button> -->
+        </div>
+        <!-- <div style="width:100%;">
+            <canvas id="myChart" width="700" height="250" #mychart></canvas>
+        </div> -->
+
+        <div class="col=12 mt-3" *ngIf="callList!=''">
+            <h6> {{'CALL LIST FROM VONAGE'}} </h6>
+            <mat-form-field class="w-100" *ngIf="callList!='' && !onLoading">
+                <input matInput (keyup.enter)="commonservice.applyFilter($event.target['value'],callList);" placeholder="SEARCH">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8" [hidden]="callList=='' || onLoading">
+
+                <mat-table class="table-container" [dataSource]="callList" matSort color="primary">
+
+
+                    <ng-container matColumnDef="uuid">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'ID'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.uuid}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="fromNumber">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CALL FROM'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.fromNumber}}
+                        </mat-cell>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="toNumber">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CALL TO'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.toNumber}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="direction">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CALL DIRECTION'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.direction | titlecase}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="duration">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CALL DURATION'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.duration}}
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="rate">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CALL RATE'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.rate}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="price">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CALL PRICE'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.price}}
+                        </mat-cell>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CALL STATUS'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.status | titlecase}}
+                        </mat-cell>
+                    </ng-container>
+
+
+
+
+
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+
+        <div class="col-12 mt-3">
+            <div class="d-flex align-content-center justify-content-between">
+                <div *ngIf="manualcallList!=''" class="h6"> {{'CALL ENTRIES'}} <b>(TOTAL: {{totalManualEntry}}) </b>
+                </div>
+                <label class="btn btn-sm btn-primary" *ngIf="allowAccess">
+                          <input type="file" onclick="this.value = null"  [hidden]="true" name="selectfile"  (change)="selectFile($event);this.showloader = true;"/>
+                          SELECT FILE
+                        </label>
+            </div>
+
+            <mat-form-field class="w-100" *ngIf="manualcallList!=''">
+                <input matInput (keyup.enter)="commonservice.applyFilter($event.target['value'],manualcallList);" placeholder="SEARCH">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8" [hidden]="manualcallList==''">
+
+                <mat-table #manualentrySort="matSort" class="table-container" [dataSource]="manualcallList" matSort color="primary">
+
+                    <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+                    <ng-container matColumnDef="generatedId">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'ID'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.generatedId}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'EMAIL'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.email}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'STATUS'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.status}}
+                        </mat-cell>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="datetime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'DATE TIME'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.datetime}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="duration">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'DURATION'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.duration }} <span class="ml-1 color4 cursor-pointer"> <i class="fa fa-headphones"> </i></span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="offer">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'OFFER'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.offer}}
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="merchant">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'MERCHANT'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.merchant}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="clientphoneNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CLIENT PHONE NO'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.clientphoneNo}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="forwardedNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'FORWARDED NO'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.forwardedNo}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="pointspercall">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'POINTS PER CALL'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <i class="fa fa-dollar" aria-hidden="true"></i>{{row.pointspercall}}
+                                </div>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+
+
+
+                    <mat-header-row *matHeaderRowDef="displayedManualColumns;sticky: true"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedManualColumns;"></mat-row>
+                </mat-table>
+                <mat-paginator #manualentryPaginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+
+</div>
+
+<ng-template #entryModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{'NEW ENTRY'}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form #entryform="ngForm" (ngSubmit)="saveOrUpdatentry()">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <mat-form-field class="col-md-12">
+                        <input matInput name="callername" [(ngModel)]="entryObject['callername']" required #callername="ngModel" placeholder="{{'CALLER NAME' }}">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field class="col-md-12">
+                        <input matInput name="callerphoneNo" [(ngModel)]="entryObject['callerphoneNo']" required #callerphoneNo="ngModel" placeholder="{{'CALLER PHONENO' }}" pattern="^[0-9]{1,10}$">
+
+                    </mat-form-field>
+                    <div *ngIf="callerphoneNo.touched ">
+                        <div class="error-msg" *ngIf="!callerphoneNo.errors?.required && (callerphoneNo.dirty)">
+                            <span class="text-Return: 0" *ngIf="callerphoneNo.invalid && callerphoneNo.errors.pattern">
+                                   {{'PHONE NO IS INVALID' }}
+                             </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="col-md-12">
+                        <input matInput name="calledTo" [(ngModel)]="entryObject['calledTo']" #calledTo="ngModel" placeholder="{{'CALL TO NO' }}" pattern="^[0-9]{1,10}$">
+                    </mat-form-field>
+                    <div *ngIf="calledTo.touched ">
+                        <div class="error-msg" *ngIf="(calledTo.dirty)">
+                            <span class="text-Return: 0" *ngIf="calledTo.invalid && calledTo.errors.pattern">
+                                 {{'PHONE NO IS INVALID' }}
+                           </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="col-md-12">
+                        <input matInput name="callercountry" [(ngModel)]="entryObject['callercountry']" #callercountry="ngModel" placeholder="{{'CALLER COUNTRY' }}">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="col-md-12">
+
+                        <mat-label>{{'CALL STATUS' }}</mat-label>
+                        <mat-select name="callStatus" [(ngModel)]="entryObject['callStatus']" #callStatus="ngModel">
+                            <mat-option [value]="'NORMAL'">{{'NORMAL' }}
+                            </mat-option>
+                            <mat-option [value]="'HP'">{{'HIGH PRIORITY' }}
+                            </mat-option>
+
+                        </mat-select>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="col-md-12">
+
+                        <textarea matInput rows="0" name="enquiryDescription" [(ngModel)]="entryObject['enquiryDescription']" #enquiryDescription="ngModel" placeholder="{{'ENQUIRY DESCRIPTION' }}">
+                  </textarea>
+
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-sm btn-primary" [disabled]="callername.errors?.required || (callerphoneNo.invalid &&  callerphoneNo.errors.pattern )|| (calledTo.invalid && calledTo.errors.pattern)"> CREATE RECORD</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

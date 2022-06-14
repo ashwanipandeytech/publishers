@@ -1,0 +1,94 @@
+<div class="bg">
+    <div class="wrapper">
+        <mat-card-header class="d-block text-center">
+            <h2 class="font-weight-bold">{{alreadyHaveAccount ? 'Merchant Login':'Merchant Registration'}}</h2>
+        </mat-card-header>
+
+        <mat-card-content class="mt-4">
+            <form #loginForm="ngForm" [hidden]="!alreadyHaveAccount" class="example-form " (keydown)="keyDownFunction($event,username,password,'login')" autocomplete="off">
+                <mat-form-field [hidden]="true" class="w-100">
+                    <input matInput id="test2" [hidden]="true">
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <input matInput name="username" [(ngModel)]="username" required #userName="ngModel" placeholder="{{'USERNAME' }}">
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <input matInput type="password" name="Password" id="password" [(ngModel)]="password" autocomplete="off" required #passWord="ngModel" placeholder="{{'PASSWORD' }}">
+                </mat-form-field>
+            </form>
+
+            <form #registerForm="ngForm" novalidate id="" name="registerForm" [hidden]="alreadyHaveAccount" class="example-form " (keydown)="keyDownFunction($event,username,password,'register')" autocomplete="off">
+                <mat-form-field class="w-100">
+                    <mat-placeholder class="placeholder">{{'FIRSTNAME' }}</mat-placeholder>
+                    <input matInput name="firstname" #firstname="ngModel" [(ngModel)]="registerformdata.firstname" required>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <mat-placeholder class="placeholder">{{'LASTNAME' }}</mat-placeholder>
+                    <input matInput name="lastname" #lastname="ngModel" [(ngModel)]="registerformdata.lastname" required>
+                </mat-form-field>
+                <div class=" form-group mobile-no d-flex mt-2">
+                    <label for="MOBILE NO" class="pr-3 mb-0"> {{'MOBILE NO' }} </label>
+                    <ngx-intl-tel-input [cssClass]="'custom'" [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" [selectFirstCountry]="false" [maxLength]="15" [phoneValidation]="true"
+                        [separateDialCode]="separateDialCode" [(ngModel)]="registerformdata['Mobile']" [ngModelOptions]="{standalone: true}" #mobileno="ngModel" [selectedCountryISO]="countryname">
+                    </ngx-intl-tel-input>
+                </div>
+
+                <mat-form-field class="w-100">
+                    <mat-placeholder class="placeholder">{{'EMAIL' }}</mat-placeholder>
+                    <input matInput name="email" #email="ngModel" [(ngModel)]="registerformdata.email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
+                </mat-form-field>
+                <div *ngIf="email.touched" class="w-100">
+                    <div class="error-msg" *ngIf="!email.errors?.required && (email.dirty)">
+                        <span class="text-danger" *ngIf="email.invalid && email.errors.pattern">
+                            {{'EMAIL IS INVALID' }}
+                        </span>
+                    </div>
+                </div>
+                <mat-form-field class="w-100" [hidden]="true">
+                    <input matInput id="test" [hidden]="true">
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <input matInput name="ruserName" #ruserName="ngModel" [(ngModel)]="registerformdata.username" autocomplete="new-username" placeholder="{{'USERNAME' }}" required>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <input matInput type="password" name="rpassWord" #rpassWord="ngModel" [(ngModel)]="registerformdata.password" autocomplete="new-password" placeholder="{{'PASSWORD' }}" required>
+                </mat-form-field>
+
+            </form>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="text-center">
+
+                <button [hidden]="!alreadyHaveAccount" type="submit" (click)="loginUser()" color="primary" class="btn btn-primary btn-lg btn-block mat-raised-button" [disabled]="
+                 userName.errors?.required
+                 || passWord.errors?.required">{{'LOGIN'
+                   }}</button>
+                <button [hidden]="alreadyHaveAccount" [disabled]="
+                  firstname.errors?.required
+                 || lastname.errors?.required
+                 || ruserName.errors?.required
+                 || email.errors?.required
+                 || email.errors?.pattern
+                 || rpassWord.errors?.required" type="submit" (click)="registerUser()" color="primary" class="btn btn-success btn-lg btn-block mat-raised-button">{{'REGISTER'
+                   }}</button>
+
+
+            </div>
+            <div class="text-center mt-2">
+                <span type="reset" class="btn btn-sm " [ngClass]="alreadyHaveAccount?'text-danger':'text-success'" (click)="resetUserForm(registerForm,loginForm)">{{(alreadyHaveAccount)?"DON'T HAVE AN ACCOUNT YET?":'ALREADY HAVE AN ACCOUNT?' }} </span>
+                <!-- <button  type="reset"class="btn btn-sm " [ngClass]="alreadyHaveAccount?'text-danger':'text-success'" (click)="resetUserForm(registerForm);registerForm.reset()">{{(alreadyHaveAccount)?"DON'T HAVE AN ACCOUNT YET?":'ALREADY HAVE AN ACCOUNT?' }} </button> -->
+                <!-- <mat-slide-toggle  class="example-margin" (toggleChange)="alreadyHaveAccount=!alreadyHaveAccount;" (click)="resetUserForm()" [color]="'primary'">
+
+                </mat-slide-toggle> -->
+
+            </div>
+            <!-- <div class="text-center"> [ngClass]="{ 'is-invalid': groupCode.touched && groupCode.errors?.required }"
+              <span class="mt-1" *ngIf="showloader"><img
+                      src="assets/images/loadingicon.gif"></span>
+          </div> -->
+
+
+        </mat-card-actions>
+    </div>
+</div>

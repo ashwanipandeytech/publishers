@@ -1,0 +1,154 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 mt-3">
+            <div class="d-flex align-content-center justify-content-between">
+                <div *ngIf="manualcallList!=''" class="h6"> {{'CALL ENTRIES'}} <b>(TOTAL: {{totalManualEntry}}) </b>
+                </div>
+
+            </div>
+            <div class="mat-elevation-z8 p-3">
+                <h6> FILTERS</h6>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field class="w-100">
+                            <input matInput name="daterange" placeholder="SELECT DATE RANGE" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges" [(ngModel)]="modelrange" autocomplete="off">
+                        </mat-form-field>
+                        <!-- <input type="text" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges" [(ngModel)]="model"> -->
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label>{{'STATUS' }}</mat-label>
+                            <mat-select [(ngModel)]="callstatus" name="status" [ngModelOptions]="{standalone: true}" #status="ngModel">
+
+                                <mat-option [value]="'Approved'">{{'APPROVED'}}</mat-option>
+                                <mat-option [value]="'Hold'">{{'HOLD'}}</mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="w-100">
+                            <input matInput name="callerid" placeholder="CALLER ID" [(ngModel)]="callerid" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+
+                        <mat-form-field class="w-50">
+                            <input matInput name="durationone" placeholder="SEC" [(ngModel)]="duration1" autocomplete="off">
+                        </mat-form-field>
+
+                        <mat-form-field class="w-50">
+                            <input matInput name="durationtwo" placeholder="SEC" [(ngModel)]="duration2" autocomplete="off">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-sm btn-primary" (click)="filterData()"> APPLY</button>
+                        <button class="btn btn-sm btn-primary ml-3" (click)="reset()"> RESET</button>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- <mat-form-field class="w-100" *ngIf="manualcallList!=''">
+                <input matInput (keyup.enter)="commonservice.applyFilter($event.target['value'],manualcallList);" placeholder="SEARCH">
+            </mat-form-field> -->
+
+            <div class="mat-elevation-z8 mt-3" [hidden]="manualcallList==''">
+
+                <mat-table #manualentrySort="matSort" class="table-container" [dataSource]="manualcallList" matSort color="primary">
+
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+                    <ng-container matColumnDef="generatedId">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'ID'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.generatedId}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'EMAIL'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.email}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'STATUS'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.status}}
+                        </mat-cell>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="datetime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'DATE TIME'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.datetime}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="duration">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'DURATION'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.duration }} <span class="ml-1 color4 cursor-pointer"> <i class="fa fa-headphones"> </i></span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="offer">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'OFFER'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.offer}}
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="merchant">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'MERCHANT'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.merchant}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="clientphoneNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CLIENT PHONE NO'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.clientphoneNo}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="forwardedNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'FORWARDED NO'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.forwardedNo}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="pointspercall">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'POINTS PER CALL'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <i class="fa fa-dollar" aria-hidden="true"></i>{{row.pointspercall}}
+                                </div>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+
+
+
+                    <mat-header-row *matHeaderRowDef="displayedManualColumns;sticky: true"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedManualColumns;"></mat-row>
+                </mat-table>
+                <mat-paginator #manualentryPaginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+
+</div>

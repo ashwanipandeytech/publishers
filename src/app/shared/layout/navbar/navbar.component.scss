@@ -1,0 +1,35 @@
+@import "src/assets/styles/scss/variables.scss";
+@import "src/assets/styles/scss/mixins.scss";
+.my_account_dropdown {
+    background: var(--theme-color-2);
+}
+
+.currentBalance {
+    white-space: nowrap;
+    color: #fff;
+    font-weight: 700;
+}
+
+.header-class {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .collapse-icon {
+        line-height: 56px;
+        font-size: 30px;
+        background-color: rgba($theme-color-1, .2);
+        cursor: pointer;
+    }
+    .logout {
+        cursor: pointer;
+        color: var(--color4);
+    }
+}
+
+.dropdown-toggle::after {
+    color: var(--color5);
+}
+.navbar-nav .dropdown-menu {
+    padding: 0;
+    border-radius: 0;
+}

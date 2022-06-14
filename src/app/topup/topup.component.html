@@ -1,0 +1,103 @@
+<div class="container-fluid px-0">
+    <div class="row no-gutters h-100vh">
+        <div class="container">
+
+            <div class="content custom-scroll px-3">
+
+                <div class=" mt-3" [hidden]="balanceLog=='' && showlog">
+                    <div *ngIf="balanceLog!=''" class="h6"> {{'TOUPS'}} <b>(TOTAL: {{totalEntry}}) </b>
+                    </div>
+
+                    <mat-form-field class="w-100" *ngIf="balanceLog!=''">
+                        <input matInput (keyup.enter)="commonservice.applyFilter($event.target['value'],balanceLog);" placeholder="SEARCH">
+                    </mat-form-field>
+
+                    <div class="mat-elevation-z8" [hidden]="balanceLog==''">
+
+                        <mat-table #balancelogSort="matSort" class="table-container" [dataSource]="balanceLog" matSort color="primary">
+
+                            <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+                            <ng-container matColumnDef="datetime">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'DATE TIME'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.datetime}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="email">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'EMAIL'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.email}}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="credited">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'AMOUNT'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <span class="text-success" *ngIf="row.isRechared">
+                                  {{row.amountRecharged}} USD</span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="balancebefore">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'BALANCE BEFORE'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.balancebefore}}
+
+                                </mat-cell>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="balanceafter">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'BALANCE AFTER'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.remainingBalance}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="currency">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CURRENCY'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.currency }}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="CALLSALE">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'EVENT'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <span [hidden]="row.isRechared"> {{row.id}}</span>
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="amount">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'AMOUNT'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <div class="col-md-12" *ngIf="!row.isRechared">
+                                        <div class="text-center text-danger">
+                                            {{row.pointspercall}}
+                                        </div>
+                                    </div>
+                                </mat-cell>
+                            </ng-container> -->
+
+
+
+                            <mat-header-row *matHeaderRowDef="displayedbalancelogColumns;sticky: true"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedbalancelogColumns;"></mat-row>
+                        </mat-table>
+                        <mat-paginator #balancelogPaginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,25 @@
+<div class="sidebar-header text-center">
+    <a routerLink="/dashboard" routerLinkActive="active" class="h5 text-white mb-0"> {{'CALL SYSTEM' }} </a>
+</div>
+
+<ul class="sidebar-list list-unstyled">
+    <ng-container>
+        <li class="list-item cursor-pointer" role="tab" routerLink="/dashboard">
+            <a class="link"> Dashboard </a>
+        </li>
+        <li class="list-item cursor-pointer" role="tab" routerLink="/call-entries">
+            <a class="link"> Call entries </a>
+        </li>
+
+
+        <li class="list-item cursor-pointer" role="tab" *ngIf="userPanelAllowed" routerLink="/users">
+            <a class="link"> Users </a>
+        </li>
+        <li class="list-item cursor-pointer" role="tab" routerLink="/topup">
+            <a class="link">Topups </a>
+        </li>
+        <li class="list-item cursor-pointer" role="tab" *ngIf="!userPanelAllowed" routerLink="/balancelog">
+            <a class="link"> Balance log </a>
+        </li>
+    </ng-container>
+</ul>

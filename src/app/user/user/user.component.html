@@ -1,0 +1,247 @@
+<div class="container-fluid px-0">
+    <div class="row no-gutters h-100vh">
+
+        <!-- <div class="row align-items-center mt-3">
+            <div class="col-md-5">
+                <h2>{{ 'USER LIST' }}</h2>
+            </div>
+            <div class="col text-right btn_type_1">
+                <button (click)="createUser()" class="btn btn-sm btn-primary"> CREATE A USER</button>
+            </div>
+        </div> -->
+        <!-- <div class="container"> -->
+
+            <div class="content w-100 custom-scroll px-3">
+                <mat-form-field *ngIf="userList!='' && !onLoading" class="w-100">
+                    <input matInput (keyup.enter)="commonservice.applyFilter($event.target['value'],userList);" placeholder="SEARCH">
+                </mat-form-field>
+
+                <div class="mat-elevation-z8 " [hidden]="userList=='' || onLoading">
+
+                    <mat-table class="table-container" [dataSource]="userList" matSort color="primary">
+
+                        <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+                        <ng-container matColumnDef="firstname">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'FIRST NAME'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                {{row.firstname}}
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="lastname">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'LAST NAME'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                {{row.lastname}}
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="phoneNo">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'PHONENO'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                {{row.phoneNo}}
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="email">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'EMAIL'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                {{row.email}}
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="username">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'USERNAME'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                {{row.username}}
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="registeredDate">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'REGISTERED DATE'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                {{row.registeredDate}}
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="balance">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'BALANCE'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                {{row.balance}} <span class="ml-"></span>
+                            </mat-cell>
+                        </ng-container>
+
+
+
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'APPROVAL STATUS'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+
+                                <b class="text-success" *ngIf="row.status"> ACTIVE</b>
+                                <b class="text-danger" *ngIf="!row.status"> INACTIVE</b>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="ACTION">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'ACTION'}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <button class="btn btn-sm btn-success " (click)="openrehargeModal(row,rechargeModal)">
+                                {{'ADD BALANCE'}}</button>
+                                <button class="btn btn-sm btn-primary ml-2" (click)="getrechargeLog(row)">
+                                  {{'BALANCE HISTORY'}}</button>
+
+
+                                <button class="btn btn-sm ml-2" [ngClass]="{'btn-success': !row.status,'btn-danger': row.status}" (click)="updatestatus(row)">
+                                  {{(row.status)?'DEACTIVATE':'ACTIVATE'}}</button>
+
+
+                                <button class="btn btn-sm btn btn-outline-primary ml-2" title="REMOVE USER" (click)="deleteuser(row);"><i class="fas fa-trash text-danger"></i></button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+
+                </div>
+
+
+                <div class=" mt-3" [hidden]="userList=='' || !showlog">
+                    <div class="d-flex align-content-center justify-content-between">
+                        <div *ngIf="balanceLog!=''" class="h6"> {{'BALANCE LOG'}}:<span class="text-success"> {{logFor}}</span> </div>
+
+                    </div>
+
+                    <mat-form-field class="w-100" *ngIf="balanceLog!=''">
+                        <input matInput (keyup.enter)="commonservice.applyFilter($event.target['value'],balanceLog);" placeholder="SEARCH">
+                    </mat-form-field>
+
+                    <div class="mat-elevation-z8" [hidden]="balanceLog==''">
+
+                        <mat-table #balancelogSort="matSort" class="table-container" [dataSource]="balanceLog" matSort color="primary">
+
+                            <!--- Note that these columns can be defined in any order.
+                                  The actual rendered columns are set as a property on the row definition" -->
+                            <ng-container matColumnDef="datetime">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'DATE TIME'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.datetime}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="email">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'EMAIL'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.email}}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="credited">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CREDITED'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <span class="text-success" *ngIf="row.isRechared">
+                                      {{row.amountRecharged}} USD</span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="balancebefore">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'BALANCE BEFORE'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.balancebefore}}
+
+                                </mat-cell>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="balanceafter">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'BALANCE AFTER'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.remainingBalance}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="currency">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'CURRENCY'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    {{row.currency }}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="CALLSALE">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'EVENT'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <span [hidden]="row.isRechared"> {{row.id}}</span>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="amount">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> {{'AMOUNT'}}
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <div class="col-md-12" *ngIf="!row.isRechared">
+                                        <div class="text-center">
+                                            <span class="text-danger"> -{{row.pointspercall}}</span>
+                                        </div>
+                                    </div>
+                                </mat-cell>
+                            </ng-container>
+
+
+
+                            <mat-header-row *matHeaderRowDef="displayedbalancelogColumns;sticky: true"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedbalancelogColumns;"></mat-row>
+                        </mat-table>
+                        <mat-paginator #balancelogPaginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </div>
+            </div>
+
+        <!-- </div> -->
+    </div>
+
+</div>
+
+<ng-template #rechargeModal>
+    <div class="modal-header">
+        <h6 class="modal-title pull-left">{{'ADD BALANCE'}}</h6>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <form #entryform="ngForm" (ngSubmit)="saveOrUpdatentry()">
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="w-100">
+                        <input matInput name="rechargeamount" [(ngModel)]="dataObject['amountRecharged']" required #rechargeamount="ngModel" placeholder="{{'ENTER AMOUNT' }}">
+                        <!-- pattern="/^\-?\d+((\.|\,)\d+)?$/" -->
+                    </mat-form-field>
+                    <div *ngIf="rechargeamount.touched" class="w-100">
+                        <div class="error-msg" *ngIf="!rechargeamount.errors?.required && (rechargeamount.dirty)">
+                            <span class="text-danger" *ngIf="rechargeamount.invalid && rechargeamount.errors.pattern">
+                              {{'AMOUNT IS INVALID' }}
+                          </span>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <button class="btn btn-sm btn-primary" [disabled]="rechargeamount.errors?.required || (rechargeamount.invalid &&  rechargeamount.errors.pattern )"> SAVE</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</ng-template>

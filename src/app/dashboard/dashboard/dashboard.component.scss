@@ -1,0 +1,19 @@
+.bg-color1 { background-color: var(--color1); }
+.bg-color2 { background-color: var(--color2); }
+.bg-color3 { background-color: var(--color3); }
+.bg-color4 { background-color: var(--color4); }
+.bg-color5 { background-color: var(--color5); }
+
+.box-item {
+  height: 100%;
+  & * { color: var(--theme-color-3); }
+}
+
+.list-group-item {
+  padding: .3rem 1.5rem;
+}
+
+.content {
+  overflow: auto;
+  height: calc(100vh - 70px);
+}

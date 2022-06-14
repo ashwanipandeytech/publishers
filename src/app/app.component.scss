@@ -1,0 +1,68 @@
+@import "src/assets/styles/scss/variables.scss";
+@import "src/assets/styles/scss/mixins.scss";
+.wrapper {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    .sidebar-wrapper {
+        position: relative;
+        min-width: 0;
+        max-width: 0;
+        height: 100%;
+        background: var(--color6);
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+        &.collapsed {
+            min-width: 160px;
+        }
+    }
+    .main-content {
+        width: 100%;
+        height: 100%;
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+        .top_navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--color6);
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+            @include boxShadow(0, 1px, 5px, .04);
+            z-index: 99;
+        }
+        .route-content {
+            width: 100%;
+            // min-width: calc(100% - 160px);
+            height: 100%;
+            overflow-y: auto;
+            position: fixed;
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+            &.accesnotgranted {
+                width: 100%;
+                height: 100%;
+            }
+            &:not(.accesnotgranted) {
+                margin-top: 56px;
+                height: calc(100% - 56px);
+                padding-bottom: 16px;
+            }
+        }
+        &.collapsed {
+            min-width: calc(100% - 160px);
+            .top_navbar {
+                left: 160px;
+            }
+            .route-content:not(.accesnotgranted) {
+                width: calc(100% - 160px);
+            }
+        }
+    }
+}
+
+.session-model-open-top {
+    z-index: 1;
+}
